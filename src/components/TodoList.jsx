@@ -2,8 +2,15 @@ import React, { useContext } from "react";
 import { TodoContext } from "./TodoProvider";
 
 const TodoList = () => {
-  const { tasks, setTasks, allTask, handleSubmit, handleDelete, handleEdit } =
-    useContext(TodoContext);
+  const {
+    tasks,
+    setTasks,
+    allTask,
+    handleSubmit,
+    handleDelete,
+    handleEdit,
+    isEditing,
+  } = useContext(TodoContext);
 
   return (
     <div>
@@ -22,7 +29,9 @@ const TodoList = () => {
         <div className="todo" key={index}>
           <p>{task}</p>
           <button onClick={() => handleDelete(index)}>Delete</button>
-          <button onClick={() => handleEdit(index)}>Edit</button>
+          <button onClick={() => handleEdit(index)}>
+            {isEditing ? "Save" : "Edit"}
+          </button>
         </div>
       ))}
     </div>

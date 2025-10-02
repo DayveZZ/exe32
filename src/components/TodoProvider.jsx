@@ -6,6 +6,9 @@ const TodoProvider = ({ children }) => {
   const [tasks, setTasks] = useState("");
   const [allTask, setAllTask] = useState([]);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setAllTask([...allTask, tasks]);
@@ -17,8 +20,22 @@ const TodoProvider = ({ children }) => {
     setAllTask(allTask.filter((_, e) => e !== index));
   };
 
-  const handleEdit = (index, newText) => {
-    setAllTask(allTask.map((task, i) => (i === index ? newText : task)));
+  const handleEdit = (index) => {
+    // if already editing, save the update
+    if (isEditing) {
+      const updatedTasks = allTask.map((todo, i) =>
+        i === editIndex ? tasks : todo
+      );
+      setAllTask(updatedTasks);
+      setTasks("");
+      setEditIndex(null);
+      setIsEditing(false);
+    } else {
+      // start editing the selected todo
+      setTasks(allTask[index]);
+      setEditIndex(index);
+      setIsEditing(true);
+    }
   };
 
   return (
@@ -31,6 +48,7 @@ const TodoProvider = ({ children }) => {
           handleSubmit,
           handleDelete,
           handleEdit,
+          isEditing,
         }}
       >
         {children}
