@@ -1,11 +1,14 @@
 import React from "react";
 
 const Todo = () => {
+  const handleSubmit = (e) => {
+    e.preventdefault();
+  };
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input type="text" />
-        <button>ADD</button>
+        <button type="submit">ADD</button>
       </form>
 
       <div className="todo">
